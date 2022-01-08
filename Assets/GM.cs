@@ -7,6 +7,9 @@ public class GM : MonoBehaviour
 {
     public double interact_distance_thresh = 10.0;
     public GameObject Player;
+    public Timer Timer_;
+    public int Level_time = 300;
+    float start_time;
 
     double Distance(GameObject a, GameObject b){
         double returnval = 0;
@@ -19,12 +22,15 @@ public class GM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        start_time = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //  #################################################
+        //      Determine which object to interact(Key F)
+        //  #################################################
         var objects = GameObject.FindGameObjectsWithTag("interact_item");
         //var objectCount = objects.Length;
         var ShowWordObj = Player;
@@ -40,5 +46,9 @@ public class GM : MonoBehaviour
         if(ShowWordObj != Player){
             ShowWordObj.transform.GetChild(0).gameObject.SetActive(true);
         }
+        //  #################################################
+        //                  End Section
+        //  #################################################
+        Timer_.time_left_sec = Mathf.FloorToInt(Level_time - (Time.time - start_time));
     }
 }
