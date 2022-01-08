@@ -43,12 +43,18 @@ public class ChangingClothes : MonoBehaviour
             int _hatId = int.Parse(Outfit.Split('-')[0]);
             int _bodyId = int.Parse(Outfit.Split('-')[1]);
             int _shoeId = int.Parse(Outfit.Split('-')[2]);
-            //ChangeHat(_hatId);
+            ChangeHat(_hatId);
             ChangeBody(_bodyId);
-            //ChangeShoe(_shoeId);
+            ChangeShoe(_shoeId);
         }
     }
     
+    public void DefaultOutfit(){
+        ChangeHat(0);
+        ChangeBody(0);
+        ChangeShoe(0);
+    }
+
     public void ChooseClothes(string name){
         string _type = name.Split('-')[0];
         int _id = int.Parse(name.Split('-')[1]);
@@ -58,19 +64,28 @@ public class ChangingClothes : MonoBehaviour
     void ChangeSomething(string type, int id){
         switch(type){
             case "Hat":
-                //ChangeHat(id);
+                ChangeHat(id);
                 break;
             case "Body":
                 ChangeBody(id);
                 break;
             case "Shoe":
-                //ChangeShoe(id);
+                ChangeShoe(id);
                 break;
         }
     }
-    /*
+    
     void ChangeHat(int id){
         hatId = id;
+        if(id == 0){
+            hat1.SetActive(false);
+            hat2.SetActive(false);
+            hat3.SetActive(false);
+
+            hatActive1.SetActive(false);
+            hatActive2.SetActive(false);
+            hatActive3.SetActive(false);
+        }
         if(id == 1){
             hat1.SetActive(true);
             hat2.SetActive(false);
@@ -99,9 +114,20 @@ public class ChangingClothes : MonoBehaviour
             hatActive3.SetActive(true);
         }
     }
-    */
     void ChangeBody(int id){
         bodyId = id;
+        if(id == 0){
+            body0.SetActive(true);
+            body1.SetActive(false);
+            body2.SetActive(false);
+            body3.SetActive(false);
+
+            bodyActive1.SetActive(false);
+            bodyActive2.SetActive(false);
+            bodyActive3.SetActive(false);
+
+            pocketInfo.text = "4";
+        }
         if(id == 1){
             body0.SetActive(false);
             body1.SetActive(true);
@@ -139,35 +165,58 @@ public class ChangingClothes : MonoBehaviour
             pocketInfo.text = "5";
         }
     }
-    /*
+    
     void ChangeShoe(int id){
         shoeId = id;
-        if(id == 1){
-            shoe1.SetActive(true);
-            shoe2.SetActive(false);
-            shoe3.SetActive(false);
+        if(id == 0){
+            leftShoe1.SetActive(false);
+            rightShoe1.SetActive(false);
+            leftShoe2.SetActive(false);
+            rightShoe2.SetActive(false);
+            leftShoe3.SetActive(false);
+            rightShoe3.SetActive(false);
 
-            shoeActive1.SetActive(true);
+            shoeActive1.SetActive(false);
             shoeActive2.SetActive(false);
             shoeActive3.SetActive(false);
 
             speedInfo.text = "1";
         }
+        if(id == 1){
+            leftShoe1.SetActive(true);
+            rightShoe1.SetActive(true);
+            leftShoe2.SetActive(false);
+            rightShoe2.SetActive(false);
+            leftShoe3.SetActive(false);
+            rightShoe3.SetActive(false);
+
+            shoeActive1.SetActive(true);
+            shoeActive2.SetActive(false);
+            shoeActive3.SetActive(false);
+
+            speedInfo.text = "1.5";
+        }
         if(id == 2){
-            shoe1.SetActive(false);
-            shoe2.SetActive(true);
-            shoe3.SetActive(false);
+            leftShoe1.SetActive(false);
+            rightShoe1.SetActive(false);
+            leftShoe2.SetActive(true);
+            rightShoe2.SetActive(true);
+            leftShoe3.SetActive(false);
+            rightShoe3.SetActive(false);
 
             shoeActive1.SetActive(false);
             shoeActive2.SetActive(true);
             shoeActive3.SetActive(false);
 
-            speedInfo.text = "1";
+            speedInfo.text = "1.3";
         }
         if(id == 3){
-            shoe1.SetActive(false);
-            shoe2.SetActive(false);
-            shoe3.SetActive(true);
+            leftShoe1.SetActive(false);
+            rightShoe1.SetActive(false);
+            leftShoe2.SetActive(false);
+            rightShoe2.SetActive(false);
+            leftShoe3.SetActive(true);
+            rightShoe3.SetActive(true);
 
             shoeActive1.SetActive(false);
             shoeActive2.SetActive(false);
@@ -176,8 +225,7 @@ public class ChangingClothes : MonoBehaviour
             speedInfo.text = "1";
         }
     }
-    */
-
+    
     public void StartGame(){
         closetActive.SetActive(false);
         PlayerPrefs.SetString("Outfit", hatId.ToString() + '-' + bodyId.ToString() + '-' +  shoeId.ToString());

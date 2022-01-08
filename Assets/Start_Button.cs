@@ -52,7 +52,6 @@ public class Start_Button : MonoBehaviour
                 string userPassword  =j.list[0].GetField("password").str;
                 string userName = j.list[0].GetField("name").str;
                 string userId = j.list[0].GetField("id").i.ToString();
-                Debug.Log(userId);
 
                 string type1 = j.list[0].GetField("type1").i.ToString();
                 string type2 = j.list[0].GetField("type2").i.ToString();
@@ -66,7 +65,6 @@ public class Start_Button : MonoBehaviour
                 PlayerPrefs.SetString("Task", task);
 
                 string UserId = PlayerPrefs.GetString("UserId");
-                Debug.Log(UserId);
 
                 if(password == userPassword){
                     isMatch = true;

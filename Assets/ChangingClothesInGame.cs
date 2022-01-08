@@ -17,11 +17,16 @@ public class ChangingClothesInGame : MonoBehaviour
         bodyId = int.Parse(Outfit.Split('-')[1]);
         shoeId = int.Parse(Outfit.Split('-')[2]);
 
-        //ChangeHat(hatId);
+        ChangeHat(hatId);
         ChangeBody(bodyId);
-        //ChangeShoe(shoeId);
+        ChangeShoe(shoeId);
     }
-    /*void ChangeHat(int id){
+    void ChangeHat(int id){
+        if(id == 0){
+            hat1.SetActive(false);
+            hat2.SetActive(false);
+            hat3.SetActive(false);
+        }
         if(id == 1){
             hat1.SetActive(true);
             hat2.SetActive(false);
@@ -38,7 +43,7 @@ public class ChangingClothesInGame : MonoBehaviour
             hat3.SetActive(true);
         }
     }
-    */
+    
     void ChangeBody(int id){
         if(id == 0){
             body0.SetActive(true);
@@ -65,24 +70,38 @@ public class ChangingClothesInGame : MonoBehaviour
             body3.SetActive(true);
         }
     }
-    /*
     void ChangeShoe(int id){
-        shoeId = id;
+        if(id == 0){
+            leftShoe1.SetActive(false);
+            rightShoe1.SetActive(false);
+            leftShoe2.SetActive(false);
+            rightShoe2.SetActive(false);
+            leftShoe3.SetActive(false);
+            rightShoe3.SetActive(false);
+        }
         if(id == 1){
-            shoe1.SetActive(true);
-            shoe2.SetActive(false);
-            shoe3.SetActive(false);
+            leftShoe1.SetActive(true);
+            rightShoe1.SetActive(true);
+            leftShoe2.SetActive(false);
+            rightShoe2.SetActive(false);
+            leftShoe3.SetActive(false);
+            rightShoe3.SetActive(false);
         }
         if(id == 2){
-            shoe1.SetActive(false);
-            shoe2.SetActive(true);
-            shoe3.SetActive(false);
+            leftShoe1.SetActive(false);
+            rightShoe1.SetActive(false);
+            leftShoe2.SetActive(true);
+            rightShoe2.SetActive(true);
+            leftShoe3.SetActive(false);
+            rightShoe3.SetActive(false);
         }
         if(id == 3){
-            shoe1.SetActive(false);
-            shoe2.SetActive(false);
-            shoe3.SetActive(true);
+            leftShoe1.SetActive(false);
+            rightShoe1.SetActive(false);
+            leftShoe2.SetActive(false);
+            rightShoe2.SetActive(false);
+            leftShoe3.SetActive(true);
+            rightShoe3.SetActive(true);
         }
     }
-    */
 }
