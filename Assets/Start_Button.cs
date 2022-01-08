@@ -13,7 +13,7 @@ public class Start_Button : MonoBehaviour
         StartCoroutine(LoadScene1());
     }
     IEnumerator LoadScene1(){
-        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName:"Stage1");
+        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName:"Demo 01");
 
         loading_screen.SetActive(true);
 
