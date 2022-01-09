@@ -35,20 +35,25 @@ public class MoveBehaviour : GenericBehaviour
 	void Update()
 	{
 		// Get jump input.
+		/*
 		if (!jump && Input.GetButtonDown(jumpButton) && behaviourManager.IsCurrentBehaviour(this.behaviourCode) && !behaviourManager.IsOverriding())
 		{
 			jump = true;
 		}
+		*/
 	}
 
 	// LocalFixedUpdate overrides the virtual function of the base class.
 	public override void LocalFixedUpdate()
 	{
+		if(GameObject.Find("GM").GetComponent<GM>().Interacting_Other_UI == true){
+			return;
+		}
 		// Call the basic movement manager.
 		MovementManagement(behaviourManager.GetH, behaviourManager.GetV);
 
 		// Call the jump manager.
-		JumpManagement();
+		//JumpManagement();
 	}
 
 	// Execute the idle and walk/run jump movements.
@@ -117,7 +122,7 @@ public class MoveBehaviour : GenericBehaviour
 		Vector2 dir = new Vector2(horizontal, vertical);
 		speed = Vector2.ClampMagnitude(dir, 1f).magnitude;
 		// This is for PC only, gamepads control speed via analog stick.
-		speedSeeker += Input.GetAxis("Mouse ScrollWheel");
+		//speedSeeker += Input.GetAxis("Mouse ScrollWheel");
 		speedSeeker = Mathf.Clamp(speedSeeker, walkSpeed, runSpeed);
 		speed *= speedSeeker;
 		if (behaviourManager.IsSprinting())

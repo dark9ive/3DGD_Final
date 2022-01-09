@@ -10,6 +10,7 @@ public class GM : MonoBehaviour
     public Timer Timer_;
     public int Level_time = 300;
     float start_time;
+    public bool Interacting_Other_UI = false;
 
     double Distance(GameObject a, GameObject b){
         double returnval = 0;
@@ -45,6 +46,10 @@ public class GM : MonoBehaviour
         }
         if(ShowWordObj != Player){
             ShowWordObj.transform.GetChild(0).gameObject.SetActive(true);
+            if(Input.GetKey(KeyCode.F) && !Interacting_Other_UI){
+                ShowWordObj.transform.GetChild(1).gameObject.SetActive(true);
+                Interacting_Other_UI = true;
+            }
         }
         //  #################################################
         //                  End Section
