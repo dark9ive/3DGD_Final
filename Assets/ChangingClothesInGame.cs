@@ -10,6 +10,7 @@ public class ChangingClothesInGame : MonoBehaviour
     public GameObject body0, body1, body2, body3;
     public GameObject leftShoe1, rightShoe1, leftShoe2, rightShoe2, leftShoe3, rightShoe3;
     public MoveBehaviour PlayerSpeedObj;
+    public DynamicBag BagObj;
 
     void Start()
     {
@@ -57,18 +58,21 @@ public class ChangingClothesInGame : MonoBehaviour
             body1.SetActive(true);
             body2.SetActive(false);
             body3.SetActive(false);
+            BagObj.SetBag(3);
         }
         if(id == 2){
             body0.SetActive(false);
             body1.SetActive(false);
             body2.SetActive(true);
             body3.SetActive(false);
+            BagObj.SetBag(4);
         }
         if(id == 3){
             body0.SetActive(false);
             body1.SetActive(false);
             body2.SetActive(false);
             body3.SetActive(true);
+            BagObj.SetBag(5);
         }
     }
     void ChangeShoe(int id){

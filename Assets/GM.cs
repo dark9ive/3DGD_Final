@@ -11,6 +11,7 @@ public class GM : MonoBehaviour
     public int Level_time = 300;
     float start_time;
     public bool Interacting_Other_UI = false;
+    public Sprite[] spriteList;
 
     double Distance(GameObject a, GameObject b){
         double returnval = 0;
@@ -19,6 +20,10 @@ public class GM : MonoBehaviour
         returnval += Math.Pow((a.transform.position.z - b.transform.position.z), 2);
         returnval = Math.Pow(returnval, 0.5);
         return returnval;
+    }
+
+    void End(){
+        Debug.Log("Game Over!");
     }
     // Start is called before the first frame update
     void Start()
@@ -47,7 +52,11 @@ public class GM : MonoBehaviour
         if(ShowWordObj != Player){
             ShowWordObj.transform.GetChild(0).gameObject.SetActive(true);
             if(Input.GetKey(KeyCode.F) && !Interacting_Other_UI){
+                //  Show Interact Item UI.
                 ShowWordObj.transform.GetChild(1).gameObject.SetActive(true);
+                //  Send Bag UI to Interact Item UI.
+                GameObject.Find("MainUI").transform.GetChild(3).transform.SetParent(ShowWordObj.transform.GetChild(1));
+                //  Lock Interact.
                 Interacting_Other_UI = true;
             }
         }
@@ -55,5 +64,8 @@ public class GM : MonoBehaviour
         //                  End Section
         //  #################################################
         Timer_.time_left_sec = Mathf.FloorToInt(Level_time - (Time.time - start_time));
+        if(Timer_.time_left_sec <= -1){
+            End();
+        }
     }
 }

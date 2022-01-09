@@ -47,8 +47,10 @@ public class MoveBehaviour : GenericBehaviour
 	public override void LocalFixedUpdate()
 	{
 		if(GameObject.Find("GM").GetComponent<GM>().Interacting_Other_UI == true){
-			return;
-		}
+            Rigidbody rgbd = GetComponent<Rigidbody>();
+            speed = 0;
+            rgbd.velocity = Vector3.zero;
+        }
 		// Call the basic movement manager.
 		MovementManagement(behaviourManager.GetH, behaviourManager.GetV);
 
@@ -116,11 +118,14 @@ public class MoveBehaviour : GenericBehaviour
 		}
 
 		// Call function that deals with player orientation.
-		Rotating(horizontal, vertical);
+		if(GameObject.Find("GM").GetComponent<GM>().Interacting_Other_UI != true){
+        Rotating(horizontal, vertical);
 
-		// Set proper speed.
-		Vector2 dir = new Vector2(horizontal, vertical);
-		speed = Vector2.ClampMagnitude(dir, 1f).magnitude;
+        // Set proper speed.
+        Vector2 dir = new Vector2(horizontal, vertical);
+
+        speed = Vector2.ClampMagnitude(dir, 1f).magnitude;
+        }
 		// This is for PC only, gamepads control speed via analog stick.
 		//speedSeeker += Input.GetAxis("Mouse ScrollWheel");
 		speedSeeker = Mathf.Clamp(speedSeeker, walkSpeed, runSpeed);
