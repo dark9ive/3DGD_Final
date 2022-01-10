@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GM : MonoBehaviour
 {
-    public double interact_distance_thresh = 10.0;
+    public double interact_distance_thresh;
     public GameObject Player;
     public Timer Timer_;
     public int Level_time = 300;
@@ -28,7 +28,7 @@ public class GM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        start_time = Time.time;
+
     }
 
     // Update is called once per frame
@@ -49,6 +49,7 @@ public class GM : MonoBehaviour
                 Min_distance = tmp;
             }
         }
+        //Debug.Log(Min_distance.ToString());
         if(ShowWordObj != Player){
             ShowWordObj.transform.GetChild(0).gameObject.SetActive(true);
             if(Input.GetKey(KeyCode.F) && !Interacting_Other_UI){

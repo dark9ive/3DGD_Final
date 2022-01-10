@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DyeInputBTN : MonoBehaviour
+public class DyeOutputBTN : MonoBehaviour
 {
 
     public void OnClick(){
         int myID = transform.GetChild(0).GetComponent<ItemSlotImg>().getPicID();
         if(myID == 0){
             Debug.Log("ID = 0!");
-            return;
-        }
-        if(transform.parent.parent.GetChild(transform.parent.parent.childCount - 5).GetComponent<DyeStartBTN>().working[transform.GetSiblingIndex()] == true){
-            Debug.Log("Working!");
             return;
         }
         else{
