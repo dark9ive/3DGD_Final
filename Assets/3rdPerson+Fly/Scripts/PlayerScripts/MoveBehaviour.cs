@@ -19,8 +19,6 @@ public class MoveBehaviour : GenericBehaviour
 	public Vector3 targetDirection;
 	private Rigidbody rBody;
 
-	
-
 	// Start is always called after any Awake functions.
 	void Start()
 	{

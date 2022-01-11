@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GM : MonoBehaviour
 {
@@ -12,7 +14,16 @@ public class GM : MonoBehaviour
     float start_time;
     public bool Interacting_Other_UI = false;
     public Sprite[] spriteList;
-   
+    
+    public GameObject loading_screen;
+    public Slider slider;
+    public GameObject PauseMenuUI;
+    public GameObject FailUI, SuccessUI;
+    public AudioSource Button, ClockTicking, TimesUp;
+    
+    private bool isPause = false;
+    private bool isCountingDown = false;
+    private bool isTimesUp = false;
 
     double Distance(GameObject a, GameObject b){
         double returnval = 0;
@@ -25,11 +36,18 @@ public class GM : MonoBehaviour
 
     void End(){
         Debug.Log("Game Over!");
+        Time.timeScale = 0;
+
+        //Check point ,if success ###
+        //SuccessUI.SetActive(true);
+        //FasilUI.SetActive(true);
     }
     // Start is called before the first frame update
     void Start()
     {
-
+        Time.timeScale = 1;
+        //GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().StopMusic();
+        //GameObject.Find("GamingMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
     }
 
     // Update is called once per frame
@@ -66,9 +84,57 @@ public class GM : MonoBehaviour
         //  #################################################
         //                  End Section
         //  #################################################
-        Timer_.time_left_sec = Mathf.FloorToInt(Level_time - (Time.time - start_time));
-        if(Timer_.time_left_sec <= -1){
+        Timer_.time_left_sec = Mathf.FloorToInt(Level_time - (Time.timeSinceLevelLoad - start_time));
+        if(Timer_.time_left_sec == 10){
+            if(!isCountingDown){    
+                ClockTicking.Play();
+                isCountingDown = true;
+            }
+        }
+        if(Timer_.time_left_sec <= 0){
+            if(!isTimesUp){
+                TimesUp.Play();
+                isTimesUp = true;
+            }
             End();
+        }
+
+        if(isPause = true && Input.GetKeyDown(KeyCode.Escape)){
+            Button.Play();
+            ResumeGame();
+        }
+    }
+
+    public void PauseGame(){
+        isPause = true;
+        Time.timeScale = 0;
+        PauseMenuUI.SetActive(true);
+    }
+    public void ResumeGame(){
+        isPause = false;
+        Time.timeScale = 1;
+        PauseMenuUI.SetActive(false);
+    }
+    public void RestartGame(){
+        StartCoroutine(LoadScene("Demo 01"));
+    }
+    public void QuitGame(){
+        StartCoroutine(LoadScene("ChooseCloth"));
+    }
+    public void NextStage(){
+        //To Next stage
+        //StartCoroutine(LoadScene("ChooseCloth"));
+    }
+    IEnumerator LoadScene(string SceneName){
+        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName: SceneName);
+
+        loading_screen.SetActive(true);
+
+        while(!op.isDone){
+
+            slider.value = op.progress/0.9f;
+
+            yield return null;
         }
     }
 }

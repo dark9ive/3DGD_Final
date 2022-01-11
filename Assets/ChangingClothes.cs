@@ -34,6 +34,8 @@ public class ChangingClothes : MonoBehaviour
     void Start()
     {
         GetOutfit();
+        //GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
+        //GameObject.Find("GamingMusicManager").GetComponent<KeepPlayingBetweenScenes>().StopMusic();
     }
 
     void GetOutfit(){
@@ -180,7 +182,7 @@ public class ChangingClothes : MonoBehaviour
             shoeActive2.SetActive(false);
             shoeActive3.SetActive(false);
 
-            speedInfo.text = "1";
+            speedInfo.text = "1.0";
         }
         if(id == 1){
             leftShoe1.SetActive(true);
@@ -237,11 +239,14 @@ public class ChangingClothes : MonoBehaviour
         RestClient.Put(url, "{\"type2\":" + bodyId + "}");
         RestClient.Put(url, "{\"type3\":" + shoeId + "}");
 
-        StartCoroutine(LoadScene1());
+        StartCoroutine(LoadScene("Demo 01"));
+    }
+    public void QuitGame(){
+        StartCoroutine(LoadScene("Main_Menu"));
     }
 
-    IEnumerator LoadScene1(){
-        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName:"Demo 01");
+    IEnumerator LoadScene(string SceneName){
+        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName: SceneName);
 
         loading_screen.SetActive(true);
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEditor;
 using Models;
@@ -14,13 +15,31 @@ public class Start_Button : MonoBehaviour
 
     public InputField userAccount, userPassword;
     public Text hint;
+    public AudioSource Button;
 
     void Start(){
-        hint.text = ""; 
+        hint.text = "";
+        //GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
     }
 
-    IEnumerator LoadScene1(){
-        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName:"ChooseCloth");
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.Tab)){
+            Selectable next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+            if (next!= null){
+                InputField inputfield = next.GetComponent<InputField>();
+                if(inputfield !=null){
+                    inputfield.OnPointerClick(new PointerEventData(EventSystem.current));
+                    EventSystem.current.SetSelectedGameObject(next.gameObject, new BaseEventData(EventSystem.current));
+                }  //if it's an input field, also set the text caret        
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)){
+            UserLogin();
+        }
+    }
+
+    IEnumerator LoadScene(string SceneName){
+        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName: SceneName);
 
         loading_screen.SetActive(true);
 
@@ -34,6 +53,7 @@ public class Start_Button : MonoBehaviour
     }
 
     public void UserLogin(){
+        Button.Play();
         string inputAccount = userAccount.text;
         string inputPassword = userPassword.text;
 
@@ -73,7 +93,7 @@ public class Start_Button : MonoBehaviour
 
             if (isMatch){
                 hint.text = "successful login";
-                StartCoroutine(LoadScene1());
+                StartCoroutine(LoadScene("ChooseCloth"));
             }
             else{
                 Debug.Log("Account or password is error");
