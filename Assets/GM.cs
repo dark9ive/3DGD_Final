@@ -11,12 +11,8 @@ public class GM : MonoBehaviour
     public int Level_time = 300;
     float start_time;
     public bool Interacting_Other_UI = false;
-<<<<<<< Updated upstream
     public Sprite[] spriteList;
-=======
-    public Rigidbody rBody;
    
->>>>>>> Stashed changes
 
     double Distance(GameObject a, GameObject b){
         double returnval = 0;
