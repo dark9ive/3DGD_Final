@@ -34,18 +34,24 @@ public class ChangingClothes : MonoBehaviour
     void Start()
     {
         GetOutfit();
+        //GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
+        //GameObject.Find("GamingMusicManager").GetComponent<KeepPlayingBetweenScenes>().StopMusic();
     }
 
     void GetOutfit(){
         UserId = PlayerPrefs.GetString("UserId");
         if(PlayerPrefs.HasKey("Outfit")){
-            string Outfit = PlayerPrefs.GetString("Outfit");
-            int _hatId = int.Parse(Outfit.Split('-')[0]);
-            int _bodyId = int.Parse(Outfit.Split('-')[1]);
-            int _shoeId = int.Parse(Outfit.Split('-')[2]);
+            string outfit = PlayerPrefs.GetString("Outfit");
+            int _hatId = int.Parse(outfit.Split('-')[0]);
+            int _bodyId = int.Parse(outfit.Split('-')[1]);
+            int _shoeId = int.Parse(outfit.Split('-')[2]);
             ChangeHat(_hatId);
             ChangeBody(_bodyId);
             ChangeShoe(_shoeId);
+        }
+        if(PlayerPrefs.HasKey("Task")){
+            string task = PlayerPrefs.GetString("Task");
+            Debug.Log(task);
         }
     }
     
@@ -180,7 +186,7 @@ public class ChangingClothes : MonoBehaviour
             shoeActive2.SetActive(false);
             shoeActive3.SetActive(false);
 
-            speedInfo.text = "1";
+            speedInfo.text = "1.0";
         }
         if(id == 1){
             leftShoe1.SetActive(true);
@@ -237,11 +243,14 @@ public class ChangingClothes : MonoBehaviour
         RestClient.Put(url, "{\"type2\":" + bodyId + "}");
         RestClient.Put(url, "{\"type3\":" + shoeId + "}");
 
-        StartCoroutine(LoadScene1());
+        StartCoroutine(LoadScene("Demo 01"));
+    }
+    public void QuitGame(){
+        StartCoroutine(LoadScene("Main_Menu"));
     }
 
-    IEnumerator LoadScene1(){
-        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName:"Demo 01");
+    IEnumerator LoadScene(string SceneName){
+        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName: SceneName);
 
         loading_screen.SetActive(true);
 

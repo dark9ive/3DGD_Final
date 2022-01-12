@@ -9,6 +9,8 @@ public class DyeStartBTN : MonoBehaviour
     float [] start_time = new float[3];
     public float dye_time;
     public int color_code;
+    public AudioSource DyeBottomSound;
+
     public void OnClick(){
         for(int a = 0; a < 3; a++){
             int inputID = transform.parent.GetChild(transform.parent.childCount - 2).GetChild(a).GetChild(0).GetComponent<ItemSlotImg>().getPicID();
@@ -16,6 +18,7 @@ public class DyeStartBTN : MonoBehaviour
             if((working[a] == false) && ((inputID & 3) == 0) && (inputID != 0) && (outputID == 0)){
                 working[a] = true;
                 start_time[a] = Time.time;
+                DyeBottomSound.Play();
             }
         }
     }

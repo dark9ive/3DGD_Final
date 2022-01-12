@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEditor;
 using Models;
@@ -14,13 +15,33 @@ public class Start_Button : MonoBehaviour
 
     public InputField userAccount, userPassword;
     public Text hint;
+    public AudioSource Button;
+    public string task;
 
     void Start(){
-        hint.text = ""; 
+        hint.text = "";
+        userAccount.OnPointerClick(new PointerEventData(EventSystem.current));
+        //GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
     }
 
-    IEnumerator LoadScene1(){
-        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName:"ChooseCloth");
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.Tab)){
+            Selectable next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+            if (next!= null){
+                InputField inputfield = next.GetComponent<InputField>();
+                if(inputfield !=null){
+                    inputfield.OnPointerClick(new PointerEventData(EventSystem.current));
+                    EventSystem.current.SetSelectedGameObject(next.gameObject, new BaseEventData(EventSystem.current));
+                }  //if it's an input field, also set the text caret        
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)){
+            UserLogin();
+        }
+    }
+
+    IEnumerator LoadScene(string SceneName){
+        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName: SceneName);
 
         loading_screen.SetActive(true);
 
@@ -34,10 +55,14 @@ public class Start_Button : MonoBehaviour
     }
 
     public void UserLogin(){
+        Button.Play();
+        hint.text = "Checking...";
         string inputAccount = userAccount.text;
         string inputPassword = userPassword.text;
 
         CheckAccount(inputAccount, inputPassword);
+        userAccount.text = "";
+        userPassword.text = "";
     }
     void CheckAccount(string account, string password){ 
         bool isMatch = false;
@@ -51,20 +76,6 @@ public class Start_Button : MonoBehaviour
                 JSONObject j = new JSONObject(res.Text);
                 string userPassword  =j.list[0].GetField("password").str;
                 string userName = j.list[0].GetField("name").str;
-                string userId = j.list[0].GetField("id").i.ToString();
-
-                string type1 = j.list[0].GetField("type1").i.ToString();
-                string type2 = j.list[0].GetField("type2").i.ToString();
-                string type3 = j.list[0].GetField("type3").i.ToString();
-
-                string task = j.list[0].GetField("t8task").str;
-
-                //把username、外觀、任務狀態抓下來，換Scene時可讀
-                PlayerPrefs.SetString("UserId", userId);
-                PlayerPrefs.SetString("Outfit", type1 + '-' + type2 + '-' + type3);
-                PlayerPrefs.SetString("Task", task);
-
-                string UserId = PlayerPrefs.GetString("UserId");
 
                 if(password == userPassword){
                     isMatch = true;
@@ -73,7 +84,30 @@ public class Start_Button : MonoBehaviour
 
             if (isMatch){
                 hint.text = "successful login";
-                StartCoroutine(LoadScene1());
+
+                JSONObject j = new JSONObject(res.Text);
+
+                string userId = j.list[0].GetField("id").i.ToString();
+
+                string type1 = j.list[0].GetField("type1").i.ToString();
+                string type2 = j.list[0].GetField("type2").i.ToString();
+                string type3 = j.list[0].GetField("type3").i.ToString();
+
+                string _CheckType = j.list[0].GetField("t8task").GetType().ToString();
+                if(_CheckType == "JSONObject"){
+                    string urlId = "https://bkhole.app/islandxes/" + userId;
+                    RestClient.Put(urlId, "{\"t8task\":\"0-0-0-0-0\"}");
+                    task = "0-0-0-0-0";
+                }
+                else {
+                    task = j.list[0].GetField("t8task").ToString();
+                }
+                //把username、外觀、任務狀態抓下來，換Scene時可讀
+                PlayerPrefs.SetString("UserId", userId);
+                PlayerPrefs.SetString("Outfit", type1 + '-' + type2 + '-' + type3);
+                PlayerPrefs.SetString("Task", task);
+
+                StartCoroutine(LoadScene("ChooseCloth"));
             }
             else{
                 Debug.Log("Account or password is error");
