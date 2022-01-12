@@ -58,21 +58,21 @@ public class ChangingClothesInGame : MonoBehaviour
             body1.SetActive(true);
             body2.SetActive(false);
             body3.SetActive(false);
-            BagObj.SetBag(3);
+            BagObj.SetBag(6);
         }
         if(id == 2){
             body0.SetActive(false);
             body1.SetActive(false);
             body2.SetActive(true);
             body3.SetActive(false);
-            BagObj.SetBag(4);
+            BagObj.SetBag(5);
         }
         if(id == 3){
             body0.SetActive(false);
             body1.SetActive(false);
             body2.SetActive(false);
             body3.SetActive(true);
-            BagObj.SetBag(5);
+            BagObj.SetBag(4);
         }
     }
     void ChangeShoe(int id){

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GM : MonoBehaviour
 {
@@ -20,10 +21,16 @@ public class GM : MonoBehaviour
     public GameObject PauseMenuUI;
     public GameObject FailUI, SuccessUI;
     public AudioSource Button, ClockTicking, TimesUp;
+
+    public int order_count = 0;
+    private float next_order = 0.0f;
+    public Order_datablock [] orders;
     
     private bool isPause = false;
     private bool isCountingDown = false;
     private bool isTimesUp = false;
+
+
 
     double Distance(GameObject a, GameObject b){
         double returnval = 0;
@@ -75,14 +82,18 @@ public class GM : MonoBehaviour
                 //  Show Interact Item UI.
                 ShowWordObj.transform.GetChild(1).gameObject.SetActive(true);
                 //  Send Bag UI to Interact Item UI.
-                GameObject.Find("MainUI").transform.GetChild(3).transform.SetParent(ShowWordObj.transform.GetChild(1));
+                GameObject.Find("MainUI").transform.GetChild(GameObject.Find("MainUI").transform.childCount - 1).transform.SetParent(ShowWordObj.transform.GetChild(1));
                 //  Lock Interact.
                 Interacting_Other_UI = true;
-
+                //  Play Sound.
+                Button.Play();
             }
         }
         //  #################################################
-        //                  End Section
+        //                     End Section
+        //  #################################################
+        //  #################################################
+        //                   Count Time Left.
         //  #################################################
         Timer_.time_left_sec = Mathf.FloorToInt(Level_time - (Time.timeSinceLevelLoad - start_time));
         if(Timer_.time_left_sec == 10){
@@ -98,13 +109,31 @@ public class GM : MonoBehaviour
             }
             End();
         }
-
-        if(isPause = true && Input.GetKeyDown(KeyCode.Escape)){
+        //  #################################################
+        //                     End Section
+        //  #################################################
+        //  #################################################
+        //                     If paused...
+        //  #################################################
+        if(isPause == true && Input.GetKeyDown(KeyCode.Escape)){
             Button.Play();
             ResumeGame();
         }
-    }
+        //  #################################################
+        //                     End Section
+        //  #################################################
 
+    }
+    void FixedUpdate(){
+        //  #################################################
+        //                    Random Order
+        //  #################################################
+        if(order_count < 6 && Time.timeSinceLevelLoad >= next_order){
+            orders[order_count].Generate_Rand_Order();
+            order_count++;
+            next_order = Time.timeSinceLevelLoad + Random.Range(5.0f, 10.0f);
+        }
+    }
     public void PauseGame(){
         isPause = true;
         Time.timeScale = 0;
