@@ -30,15 +30,17 @@ public class ChangingClothes : MonoBehaviour
     public Text pocketInfo, speedInfo;
 
     string UserId;
+    public int isTeached, task1, task2 ,task3;
+    public GameObject TutorialUI, TutorialUI_1, TutorialUI_2, TutorialUI_3;
 
     void Start()
     {
-        GetOutfit();
+        GetState();
         //GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
         //GameObject.Find("GamingMusicManager").GetComponent<KeepPlayingBetweenScenes>().StopMusic();
     }
 
-    void GetOutfit(){
+    void GetState(){
         UserId = PlayerPrefs.GetString("UserId");
         if(PlayerPrefs.HasKey("Outfit")){
             string outfit = PlayerPrefs.GetString("Outfit");
@@ -51,8 +53,30 @@ public class ChangingClothes : MonoBehaviour
         }
         if(PlayerPrefs.HasKey("Task")){
             string task = PlayerPrefs.GetString("Task");
-            Debug.Log(task);
+            isTeached = int.Parse(task.Split('-')[0]);
+            task1 = int.Parse(task.Split('-')[1]);
+            task2 = int.Parse(task.Split('-')[2]);
+            task3 = int.Parse(task.Split('-')[3]);
         }
+
+        if(isTeached == 0){
+            Time.timeScale = 0;
+            TutorialUI.SetActive(true);
+        }
+    }
+    public void ToPage2(){
+        TutorialUI_1.SetActive(false);
+        TutorialUI_2.SetActive(true);
+    }
+    public void ToPage3(){
+        TutorialUI_2.SetActive(false);
+        TutorialUI_3.SetActive(true);
+    }
+    public void ExitTutorial(){
+        string url = "https://bkhole.app/islandxes/" + UserId;
+        RestClient.Put(url, "{\"t8task\":\"1-0-0-0\"}");
+        Time.timeScale = 1;
+        TutorialUI_3.SetActive(false);
     }
     
     public void DefaultOutfit(){
@@ -144,7 +168,7 @@ public class ChangingClothes : MonoBehaviour
             bodyActive2.SetActive(false);
             bodyActive3.SetActive(false);
 
-            pocketInfo.text = "4";
+            pocketInfo.text = "6";
         }
         if(id == 2){
             body0.SetActive(false);
@@ -156,7 +180,7 @@ public class ChangingClothes : MonoBehaviour
             bodyActive2.SetActive(true);
             bodyActive3.SetActive(false);
 
-            pocketInfo.text = "6";
+            pocketInfo.text = "5";
         }
         if(id == 3){
             body0.SetActive(false);
@@ -168,7 +192,7 @@ public class ChangingClothes : MonoBehaviour
             bodyActive2.SetActive(false);
             bodyActive3.SetActive(true);
 
-            pocketInfo.text = "5";
+            pocketInfo.text = "4";
         }
     }
     

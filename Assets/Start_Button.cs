@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
@@ -67,7 +68,7 @@ public class Start_Button : MonoBehaviour
     void CheckAccount(string account, string password){ 
         bool isMatch = false;
 
-        //ï¿½oAPIï¿½ï¿½ï¿½ï¿½ï¿½}
+        //µoAPIªººô§}
         string url = "https://bkhole.app/islandxes?name=" + account;
 
         RestClient.Get(url).Then(res => {
@@ -93,16 +94,14 @@ public class Start_Button : MonoBehaviour
                 string type2 = j.list[0].GetField("type2").i.ToString();
                 string type3 = j.list[0].GetField("type3").i.ToString();
 
-                string _CheckType = j.list[0].GetField("t8task").GetType().ToString();
-                if(_CheckType == "JSONObject"){
+                string task = j.list[0].GetField("t8task").ToString();
+                task = Regex.Replace(task, "[\"]", string.Empty);
+                if(task.Split('-')[0] != "1"){
                     string urlId = "https://bkhole.app/islandxes/" + userId;
                     RestClient.Put(urlId, "{\"t8task\":\"0-0-0-0\"}");
                     task = "0-0-0-0";
                 }
-                else {
-                    task = j.list[0].GetField("t8task").ToString();
-                }
-                //ï¿½ï¿½usernameï¿½Bï¿½~ï¿½[ï¿½Bï¿½ï¿½ï¿½Èªï¿½ï¿½Aï¿½ï¿½Uï¿½Ó¡Aï¿½ï¿½Sceneï¿½É¥iÅª
+                //§âusername¡B¥~Æ[¡B¥ô°Èª¬ºA§ì¤U¨Ó¡A´«Scene®É¥iÅª
                 PlayerPrefs.SetString("UserId", userId);
                 PlayerPrefs.SetString("Outfit", type1 + '-' + type2 + '-' + type3);
                 PlayerPrefs.SetString("Task", task);
