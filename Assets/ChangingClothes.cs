@@ -41,13 +41,17 @@ public class ChangingClothes : MonoBehaviour
     void GetOutfit(){
         UserId = PlayerPrefs.GetString("UserId");
         if(PlayerPrefs.HasKey("Outfit")){
-            string Outfit = PlayerPrefs.GetString("Outfit");
-            int _hatId = int.Parse(Outfit.Split('-')[0]);
-            int _bodyId = int.Parse(Outfit.Split('-')[1]);
-            int _shoeId = int.Parse(Outfit.Split('-')[2]);
+            string outfit = PlayerPrefs.GetString("Outfit");
+            int _hatId = int.Parse(outfit.Split('-')[0]);
+            int _bodyId = int.Parse(outfit.Split('-')[1]);
+            int _shoeId = int.Parse(outfit.Split('-')[2]);
             ChangeHat(_hatId);
             ChangeBody(_bodyId);
             ChangeShoe(_shoeId);
+        }
+        if(PlayerPrefs.HasKey("Task")){
+            string task = PlayerPrefs.GetString("Task");
+            Debug.Log(task);
         }
     }
     
