@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
@@ -93,14 +94,12 @@ public class Start_Button : MonoBehaviour
                 string type2 = j.list[0].GetField("type2").i.ToString();
                 string type3 = j.list[0].GetField("type3").i.ToString();
 
-                string _CheckType = j.list[0].GetField("t8task").GetType().ToString();
-                if(_CheckType == "JSONObject"){
+                string task = j.list[0].GetField("t8task").ToString();
+                task = Regex.Replace(task, "[\"]", string.Empty);
+                if(task.Split('-')[0] != "1"){
                     string urlId = "https://bkhole.app/islandxes/" + userId;
-                    RestClient.Put(urlId, "{\"t8task\":\"0-0-0-0-0\"}");
-                    task = "0-0-0-0-0";
-                }
-                else {
-                    task = j.list[0].GetField("t8task").ToString();
+                    RestClient.Put(urlId, "{\"t8task\":\"0-0-0-0\"}");
+                    task = "0-0-0-0";
                 }
                 //把username、外觀、任務狀態抓下來，換Scene時可讀
                 PlayerPrefs.SetString("UserId", userId);

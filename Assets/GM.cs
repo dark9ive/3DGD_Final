@@ -99,7 +99,7 @@ public class GM : MonoBehaviour
             End();
         }
 
-        if(isPause = true && Input.GetKeyDown(KeyCode.Escape)){
+        if(isPause == true && Input.GetKeyDown(KeyCode.Escape)){
             Button.Play();
             ResumeGame();
         }
