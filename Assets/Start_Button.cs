@@ -54,7 +54,7 @@ public class Start_Button : MonoBehaviour
 
     public void UserLogin(){
         Button.Play();
-        hint.text = "";
+        hint.text = "Checking...";
         string inputAccount = userAccount.text;
         string inputPassword = userPassword.text;
 
