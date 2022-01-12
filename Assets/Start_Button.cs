@@ -54,10 +54,13 @@ public class Start_Button : MonoBehaviour
 
     public void UserLogin(){
         Button.Play();
+        hint.text = "";
         string inputAccount = userAccount.text;
         string inputPassword = userPassword.text;
 
         CheckAccount(inputAccount, inputPassword);
+        userAccount.text = "";
+        userPassword.text = "";
     }
     void CheckAccount(string account, string password){ 
         bool isMatch = false;
