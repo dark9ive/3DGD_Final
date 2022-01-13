@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
+using Models;
+using Proyecto26;
 using Random = UnityEngine.Random;
+
 
 public class GM : MonoBehaviour
 {
@@ -26,6 +30,9 @@ public class GM : MonoBehaviour
     public int order_count = 0;
     private float next_order = 0.0f;
     public Order_datablock [] orders;
+
+    public string UserId;
+    public int task1, task2 ,task3;
     
     private bool isPause = false;
     private bool isCountingDown = false;
@@ -58,9 +65,18 @@ public class GM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GetState();
         Time.timeScale = 1;
         //GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().StopMusic();
         //GameObject.Find("GamingMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
+    }
+
+    void GetState(){
+        UserId = PlayerPrefs.GetString("UserId");
+        string task = PlayerPrefs.GetString("Task");
+        task1 = int.Parse(task.Split('-')[1]);
+        task2 = int.Parse(task.Split('-')[2]);
+        task3 = int.Parse(task.Split('-')[3]);
     }
 
     // Update is called once per frame
@@ -112,8 +128,9 @@ public class GM : MonoBehaviour
             if(!isTimesUp){
                 TimesUp.Play();
                 isTimesUp = true;
+                End();
             }
-            End();
+            
         }
         //  #################################################
         //                     End Section

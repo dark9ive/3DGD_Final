@@ -9,6 +9,7 @@ public class ChangingClothesInGame : MonoBehaviour
     public GameObject hat1, hat2, hat3;
     public GameObject body0, body1, body2, body3;
     public GameObject leftShoe1, rightShoe1, leftShoe2, rightShoe2, leftShoe3, rightShoe3;
+    public GameObject giftStar;
     public MoveBehaviour PlayerSpeedObj;
     public DynamicBag BagObj;
 
@@ -22,6 +23,10 @@ public class ChangingClothesInGame : MonoBehaviour
         ChangeHat(hatId);
         ChangeBody(bodyId);
         ChangeShoe(shoeId);
+
+        if(GameObject.Find("GM").GetComponent<GM>().task3 == 1){
+            giftStar.SetActive(true);
+        }
     }
     void ChangeHat(int id){
         if(id == 0){
