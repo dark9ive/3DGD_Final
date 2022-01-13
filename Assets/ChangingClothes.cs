@@ -32,12 +32,17 @@ public class ChangingClothes : MonoBehaviour
     string UserId;
     public int isTeached, task1, task2 ,task3;
     public GameObject TutorialUI, TutorialUI_1, TutorialUI_2, TutorialUI_3;
+    public GameObject giftStar;
 
     void Start()
     {
+        Time.timeScale = 1;
         GetState();
-        //GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
-        //GameObject.Find("GamingMusicManager").GetComponent<KeepPlayingBetweenScenes>().StopMusic();
+        GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
+        GameObject.Find("GamingMusicManager").GetComponent<KeepPlayingBetweenScenes>().StopMusic();
+        if(task3 == 1){
+            giftStar.SetActive(true);
+        }
     }
 
     void GetState(){
@@ -260,7 +265,7 @@ public class ChangingClothes : MonoBehaviour
         closetActive.SetActive(false);
         PlayerPrefs.SetString("Outfit", hatId.ToString() + '-' + bodyId.ToString() + '-' +  shoeId.ToString());
 
-        //把裝備資料推回去
+        //嚙踝蕭佼ご嚙複梧蕭嚙稷嚙篁
         string url = "https://bkhole.app/islandxes/" + UserId;
         
         RestClient.Put(url, "{\"type1\":" + hatId + "}");

@@ -22,7 +22,7 @@ public class Start_Button : MonoBehaviour
     void Start(){
         hint.text = "";
         userAccount.OnPointerClick(new PointerEventData(EventSystem.current));
-        //GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
+        GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
     }
 
     void Update(){
@@ -68,7 +68,7 @@ public class Start_Button : MonoBehaviour
     void CheckAccount(string account, string password){ 
         bool isMatch = false;
 
-        //µoAPIªººô§}
+        //ï¿½oAPIï¿½ï¿½ï¿½ï¿½ï¿½}
         string url = "https://bkhole.app/islandxes?name=" + account;
 
         RestClient.Get(url).Then(res => {
@@ -101,7 +101,7 @@ public class Start_Button : MonoBehaviour
                     RestClient.Put(urlId, "{\"t8task\":\"0-0-0-0\"}");
                     task = "0-0-0-0";
                 }
-                //§âusername¡B¥~Æ[¡B¥ô°Èª¬ºA§ì¤U¨Ó¡A´«Scene®É¥iÅª
+                //ï¿½ï¿½usernameï¿½Bï¿½~ï¿½[ï¿½Bï¿½ï¿½ï¿½Èªï¿½ï¿½Aï¿½ï¿½Uï¿½Ó¡Aï¿½ï¿½Sceneï¿½É¥iÅª
                 PlayerPrefs.SetString("UserId", userId);
                 PlayerPrefs.SetString("Outfit", type1 + '-' + type2 + '-' + type3);
                 PlayerPrefs.SetString("Task", task);

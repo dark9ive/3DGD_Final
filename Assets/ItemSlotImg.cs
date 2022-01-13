@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class ItemSlotImg : MonoBehaviour
 {
@@ -15,9 +16,12 @@ public class ItemSlotImg : MonoBehaviour
         GameObject GM = GameObject.Find("GM");
         GetComponent<Image>().sprite = GM.GetComponent<GM>().spriteList[picID];
         try{
-            GetComponent<RectTransform>().sizeDelta = new Vector2(GM.GetComponent<GM>().spriteList[picID].textureRect.width, GM.GetComponent<GM>().spriteList[picID].textureRect.height);
+            GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<Image>().sprite.textureRect.width, GetComponent<Image>().sprite.textureRect.height);
         }
         catch(UnassignedReferenceException e){
+            GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
+        }
+        catch(NullReferenceException e){
             GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
         }
         return;
