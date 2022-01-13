@@ -13,6 +13,7 @@ public class GM : MonoBehaviour
     public Timer Timer_;
     public int Level_time = 300;
     float start_time;
+    public int money = 0;
     public bool Interacting_Other_UI = false;
     public Sprite[] spriteList;
     
@@ -44,10 +45,15 @@ public class GM : MonoBehaviour
     void End(){
         Debug.Log("Game Over!");
         Time.timeScale = 0;
-
+        //  Hide bag.
+        GameObject.Find("MainUI").transform.GetChild(GameObject.Find("MainUI").transform.childCount - 1).gameObject.SetActive(false);
         //Check point ,if success ###
-        //SuccessUI.SetActive(true);
-        //FasilUI.SetActive(true);
+        if(money >= 3000){
+            SuccessUI.SetActive(true);
+        }
+        else{
+            FailUI.SetActive(true);
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -131,7 +137,7 @@ public class GM : MonoBehaviour
         if(order_count < 6 && Time.timeSinceLevelLoad >= next_order){
             orders[order_count].Generate_Rand_Order();
             order_count++;
-            next_order = Time.timeSinceLevelLoad + Random.Range(5.0f, 10.0f);
+            next_order = Time.timeSinceLevelLoad + Random.Range(20.0f, 25.0f);
         }
     }
     public void PauseGame(){
