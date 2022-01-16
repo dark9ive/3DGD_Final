@@ -96,7 +96,7 @@ public class ChangingClothesInGame : MonoBehaviour
             rightShoe2.SetActive(false);
             leftShoe3.SetActive(false);
             rightShoe3.SetActive(false);
-            PlayerSpeedObj.walkSpeed = 0.3f*1.5f;
+            PlayerSpeedObj.walkSpeed = 0.5f*1.5f;
         }
         if(id == 2){
             leftShoe1.SetActive(false);
@@ -105,7 +105,7 @@ public class ChangingClothesInGame : MonoBehaviour
             rightShoe2.SetActive(true);
             leftShoe3.SetActive(false);
             rightShoe3.SetActive(false);
-            PlayerSpeedObj.walkSpeed = 0.3f*1.3f;
+            PlayerSpeedObj.walkSpeed = 0.5f*1.3f;
         }
         if(id == 3){
             leftShoe1.SetActive(false);
@@ -114,7 +114,7 @@ public class ChangingClothesInGame : MonoBehaviour
             rightShoe2.SetActive(false);
             leftShoe3.SetActive(true);
             rightShoe3.SetActive(true);
-            PlayerSpeedObj.walkSpeed = 0.3f;
+            PlayerSpeedObj.walkSpeed = 0.5f;
         }
     }
 }

@@ -51,6 +51,10 @@ public class GM : MonoBehaviour
 
     void End(){
         Debug.Log("Game Over!");
+        var objects = GameObject.FindGameObjectsWithTag("UI");
+        foreach (var obj in objects) {
+            obj.SetActive(false);
+        }
         Time.timeScale = 0;
         //  Hide bag.
         GameObject.Find("MainUI").transform.GetChild(GameObject.Find("MainUI").transform.childCount - 1).gameObject.SetActive(false);
@@ -124,7 +128,8 @@ public class GM : MonoBehaviour
                 isCountingDown = true;
             }
         }
-        if(Timer_.time_left_sec <= 0){
+        if(Timer_.time_left_sec < 0){
+            Timer_.time_left_sec = 0;
             if(!isTimesUp){
                 TimesUp.Play();
                 isTimesUp = true;
