@@ -8,3 +8,4 @@ A fire right before christmas eve destroyed all the gifts, and your duty is to h
  - Use <kbd>F</kbd> to interact with interative items.
  - Click on items to put into / take from the machines.
  
+![](https://cdn.discordapp.com/attachments/893013488669192223/931031048723238922/A3.png)
