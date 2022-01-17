@@ -31,7 +31,7 @@ public class ChangingClothes : MonoBehaviour
 
     string UserId;
     public int isTeached, task1, task2 ,task3;
-    public GameObject TutorialUI, TutorialUI_1, TutorialUI_2, TutorialUI_3;
+    public GameObject TutorialUI, TutorialUI_1, TutorialUI_2, TutorialUI_3, TutorialUI_4;
     public GameObject giftStar;
 
     void Start()
@@ -77,11 +77,16 @@ public class ChangingClothes : MonoBehaviour
         TutorialUI_2.SetActive(false);
         TutorialUI_3.SetActive(true);
     }
+    public void ToPage4(){
+        TutorialUI_3.SetActive(false);
+        TutorialUI_4.SetActive(true);
+    }
+
     public void ExitTutorial(){
         string url = "https://bkhole.app/islandxes/" + UserId;
         RestClient.Put(url, "{\"t8task\":\"1-0-0-0\"}");
         Time.timeScale = 1;
-        TutorialUI_3.SetActive(false);
+        TutorialUI_4.SetActive(false);
     }
     
     public void DefaultOutfit(){
