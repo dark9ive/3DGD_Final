@@ -11,11 +11,13 @@ public class MoveBehaviour : GenericBehaviour
 	public float jumpHeight = 1.5f;                 // Default jump height.
 	public float jumpIntertialForce = 10f;          // Default horizontal inertial force when jumping.
 
-	private float speed, speedSeeker;               // Moving speed.
-	private int jumpBool;                           // Animator variable related to jumping.
-	private int groundedBool;                       // Animator variable related to whether or not the player is on ground.
-	private bool jump;                              // Boolean to determine whether or not the player started a jump.
-	private bool isColliding;                       // Boolean to determine if the player has collided with an obstacle.
+	public float speed, speedSeeker;               // Moving speed.
+	public int jumpBool;                           // Animator variable related to jumping.
+	public int groundedBool;                       // Animator variable related to whether or not the player is on ground.
+	public bool jump;                              // Boolean to determine whether or not the player started a jump.
+	public bool isColliding;                       // Boolean to determine if the player has collided with an obstacle.
+	public Vector3 targetDirection;
+	private Rigidbody rBody;
 
 	// Start is always called after any Awake functions.
 	void Start()
@@ -34,25 +36,33 @@ public class MoveBehaviour : GenericBehaviour
 	// Update is used to set features regardless the active behaviour.
 	void Update()
 	{
+		
 		// Get jump input.
+		/*
 		if (!jump && Input.GetButtonDown(jumpButton) && behaviourManager.IsCurrentBehaviour(this.behaviourCode) && !behaviourManager.IsOverriding())
 		{
 			jump = true;
 		}
+		*/
 	}
 
 	// LocalFixedUpdate overrides the virtual function of the base class.
 	public override void LocalFixedUpdate()
 	{
+		if(GameObject.Find("GM").GetComponent<GM>().Interacting_Other_UI == true){
+            Rigidbody rgbd = GetComponent<Rigidbody>();
+            speed = 0;
+            rgbd.velocity = Vector3.zero;
+        }
 		// Call the basic movement manager.
-		MovementManagement(behaviourManager.GetH, behaviourManager.GetV);
+			MovementManagement(behaviourManager.GetH, behaviourManager.GetV);
 
 		// Call the jump manager.
-		JumpManagement();
+		//JumpManagement();
 	}
 
 	// Execute the idle and walk/run jump movements.
-	void JumpManagement()
+	/*void JumpManagement()
 	{
 		// Start a new jump.
 		if (jump && !behaviourManager.GetAnim.GetBool(jumpBool) && behaviourManager.IsGrounded())
@@ -95,11 +105,12 @@ public class MoveBehaviour : GenericBehaviour
 				behaviourManager.UnlockTempBehaviour(this.behaviourCode);
 			}
 		}
-	}
+	}*/
 
 	// Deal with the basic player movement
 	void MovementManagement(float horizontal, float vertical)
 	{
+		
 		// On ground, obey gravity.
 		if (behaviourManager.IsGrounded())
 			behaviourManager.GetRigidBody.useGravity = true;
@@ -111,20 +122,24 @@ public class MoveBehaviour : GenericBehaviour
 		}
 
 		// Call function that deals with player orientation.
-		Rotating(horizontal, vertical);
+		if(GameObject.Find("GM").GetComponent<GM>().Interacting_Other_UI != true){
+        Rotating(horizontal, vertical);
 
-		// Set proper speed.
-		Vector2 dir = new Vector2(horizontal, vertical);
-		speed = Vector2.ClampMagnitude(dir, 1f).magnitude;
+        // Set proper speed.
+        Vector2 dir = new Vector2(horizontal, vertical);
+
+        speed = Vector2.ClampMagnitude(dir, 1f).magnitude;
+        }
+
 		// This is for PC only, gamepads control speed via analog stick.
-		speedSeeker += Input.GetAxis("Mouse ScrollWheel");
+		//speedSeeker += Input.GetAxis("Mouse ScrollWheel");
 		speedSeeker = Mathf.Clamp(speedSeeker, walkSpeed, runSpeed);
 		speed *= speedSeeker;
-		if (behaviourManager.IsSprinting())
+		/*if (behaviourManager.IsSprinting())
 		{
 			speed = sprintSpeed;
 		}
-
+*/		
 		behaviourManager.GetAnim.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
 	}
 
@@ -148,7 +163,7 @@ public class MoveBehaviour : GenericBehaviour
 
 		// Calculate target direction based on camera forward and direction key.
 		Vector3 right = new Vector3(forward.z, 0, -forward.x);
-		Vector3 targetDirection;
+		
 		targetDirection = forward * vertical + right * horizontal;
 
 		// Lerp current direction to calculated target direction.
@@ -170,7 +185,7 @@ public class MoveBehaviour : GenericBehaviour
 	}
 
 	// Collision detection.
-	private void OnCollisionStay(Collision collision)
+	/*private void OnCollisionStay(Collision collision)
 	{
 		isColliding = true;
 		// Slide on vertical obstacles
@@ -185,5 +200,5 @@ public class MoveBehaviour : GenericBehaviour
 		isColliding = false;
 		GetComponent<CapsuleCollider>().material.dynamicFriction = 0.6f;
 		GetComponent<CapsuleCollider>().material.staticFriction = 0.6f;
-	}
+	}*/
 }

@@ -30,23 +30,58 @@ public class ChangingClothes : MonoBehaviour
     public Text pocketInfo, speedInfo;
 
     string UserId;
+    public int isTeached, task1, task2 ,task3;
+    public GameObject TutorialUI, TutorialUI_1, TutorialUI_2, TutorialUI_3;
+    public GameObject giftStar;
 
     void Start()
     {
-        GetOutfit();
+        Time.timeScale = 1;
+        GetState();
+        GameObject.Find("MenuMusicManager").GetComponent<KeepPlayingBetweenScenes>().PlayMusic();
+        GameObject.Find("GamingMusicManager").GetComponent<KeepPlayingBetweenScenes>().StopMusic();
+        if(task3 == 1){
+            giftStar.SetActive(true);
+        }
     }
 
-    void GetOutfit(){
+    void GetState(){
         UserId = PlayerPrefs.GetString("UserId");
         if(PlayerPrefs.HasKey("Outfit")){
-            string Outfit = PlayerPrefs.GetString("Outfit");
-            int _hatId = int.Parse(Outfit.Split('-')[0]);
-            int _bodyId = int.Parse(Outfit.Split('-')[1]);
-            int _shoeId = int.Parse(Outfit.Split('-')[2]);
+            string outfit = PlayerPrefs.GetString("Outfit");
+            int _hatId = int.Parse(outfit.Split('-')[0]);
+            int _bodyId = int.Parse(outfit.Split('-')[1]);
+            int _shoeId = int.Parse(outfit.Split('-')[2]);
             ChangeHat(_hatId);
             ChangeBody(_bodyId);
             ChangeShoe(_shoeId);
         }
+        if(PlayerPrefs.HasKey("Task")){
+            string task = PlayerPrefs.GetString("Task");
+            isTeached = int.Parse(task.Split('-')[0]);
+            task1 = int.Parse(task.Split('-')[1]);
+            task2 = int.Parse(task.Split('-')[2]);
+            task3 = int.Parse(task.Split('-')[3]);
+        }
+
+        if(isTeached == 0){
+            Time.timeScale = 0;
+            TutorialUI.SetActive(true);
+        }
+    }
+    public void ToPage2(){
+        TutorialUI_1.SetActive(false);
+        TutorialUI_2.SetActive(true);
+    }
+    public void ToPage3(){
+        TutorialUI_2.SetActive(false);
+        TutorialUI_3.SetActive(true);
+    }
+    public void ExitTutorial(){
+        string url = "https://bkhole.app/islandxes/" + UserId;
+        RestClient.Put(url, "{\"t8task\":\"1-0-0-0\"}");
+        Time.timeScale = 1;
+        TutorialUI_3.SetActive(false);
     }
     
     public void DefaultOutfit(){
@@ -138,7 +173,7 @@ public class ChangingClothes : MonoBehaviour
             bodyActive2.SetActive(false);
             bodyActive3.SetActive(false);
 
-            pocketInfo.text = "4";
+            pocketInfo.text = "6";
         }
         if(id == 2){
             body0.SetActive(false);
@@ -150,7 +185,7 @@ public class ChangingClothes : MonoBehaviour
             bodyActive2.SetActive(true);
             bodyActive3.SetActive(false);
 
-            pocketInfo.text = "6";
+            pocketInfo.text = "5";
         }
         if(id == 3){
             body0.SetActive(false);
@@ -162,7 +197,7 @@ public class ChangingClothes : MonoBehaviour
             bodyActive2.SetActive(false);
             bodyActive3.SetActive(true);
 
-            pocketInfo.text = "5";
+            pocketInfo.text = "4";
         }
     }
     
@@ -180,7 +215,7 @@ public class ChangingClothes : MonoBehaviour
             shoeActive2.SetActive(false);
             shoeActive3.SetActive(false);
 
-            speedInfo.text = "1";
+            speedInfo.text = "1.0";
         }
         if(id == 1){
             leftShoe1.SetActive(true);
@@ -230,18 +265,21 @@ public class ChangingClothes : MonoBehaviour
         closetActive.SetActive(false);
         PlayerPrefs.SetString("Outfit", hatId.ToString() + '-' + bodyId.ToString() + '-' +  shoeId.ToString());
 
-        //把裝備資料推回去
+        //嚙踝蕭佼ご嚙複梧蕭嚙稷嚙篁
         string url = "https://bkhole.app/islandxes/" + UserId;
         
         RestClient.Put(url, "{\"type1\":" + hatId + "}");
         RestClient.Put(url, "{\"type2\":" + bodyId + "}");
         RestClient.Put(url, "{\"type3\":" + shoeId + "}");
 
-        StartCoroutine(LoadScene1());
+        StartCoroutine(LoadScene("Demo 01"));
+    }
+    public void QuitGame(){
+        StartCoroutine(LoadScene("Main_Menu"));
     }
 
-    IEnumerator LoadScene1(){
-        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName:"Demo 01");
+    IEnumerator LoadScene(string SceneName){
+        AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName: SceneName);
 
         loading_screen.SetActive(true);
 

@@ -9,6 +9,9 @@ public class ChangingClothesInGame : MonoBehaviour
     public GameObject hat1, hat2, hat3;
     public GameObject body0, body1, body2, body3;
     public GameObject leftShoe1, rightShoe1, leftShoe2, rightShoe2, leftShoe3, rightShoe3;
+    public GameObject giftStar;
+    public MoveBehaviour PlayerSpeedObj;
+    public DynamicBag BagObj;
 
     void Start()
     {
@@ -20,6 +23,10 @@ public class ChangingClothesInGame : MonoBehaviour
         ChangeHat(hatId);
         ChangeBody(bodyId);
         ChangeShoe(shoeId);
+
+        if(GameObject.Find("GM").GetComponent<GM>().task3 == 1){
+            giftStar.SetActive(true);
+        }
     }
     void ChangeHat(int id){
         if(id == 0){
@@ -56,18 +63,21 @@ public class ChangingClothesInGame : MonoBehaviour
             body1.SetActive(true);
             body2.SetActive(false);
             body3.SetActive(false);
+            BagObj.SetBag(6);
         }
         if(id == 2){
             body0.SetActive(false);
             body1.SetActive(false);
             body2.SetActive(true);
             body3.SetActive(false);
+            BagObj.SetBag(5);
         }
         if(id == 3){
             body0.SetActive(false);
             body1.SetActive(false);
             body2.SetActive(false);
             body3.SetActive(true);
+            BagObj.SetBag(4);
         }
     }
     void ChangeShoe(int id){
@@ -86,6 +96,7 @@ public class ChangingClothesInGame : MonoBehaviour
             rightShoe2.SetActive(false);
             leftShoe3.SetActive(false);
             rightShoe3.SetActive(false);
+            PlayerSpeedObj.walkSpeed = 0.5f*1.5f;
         }
         if(id == 2){
             leftShoe1.SetActive(false);
@@ -94,6 +105,7 @@ public class ChangingClothesInGame : MonoBehaviour
             rightShoe2.SetActive(true);
             leftShoe3.SetActive(false);
             rightShoe3.SetActive(false);
+            PlayerSpeedObj.walkSpeed = 0.5f*1.3f;
         }
         if(id == 3){
             leftShoe1.SetActive(false);
@@ -102,6 +114,7 @@ public class ChangingClothesInGame : MonoBehaviour
             rightShoe2.SetActive(false);
             leftShoe3.SetActive(true);
             rightShoe3.SetActive(true);
+            PlayerSpeedObj.walkSpeed = 0.5f;
         }
     }
 }
