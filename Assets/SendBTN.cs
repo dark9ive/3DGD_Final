@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SendBTN : MonoBehaviour
 {
+    public AudioSource WrongOrder; 
+
     public void OnClick(){
         GameObject Orders = GameObject.Find("MainUI").transform.GetChild(1).gameObject;
         int order_count = GameObject.Find("GM").transform.GetComponent<GM>().order_count;
@@ -28,9 +30,11 @@ public class SendBTN : MonoBehaviour
         }
         if(success){
             transform.parent.parent.GetComponent<santaScript>().correct();
+            transform.parent.parent.GetComponent<AudioSource>().Play();
         }
         else{
             transform.parent.parent.GetComponent<santaScript>().incorrect();
+            WrongOrder.Play();
         }
         for(int a = 0; a < 3; a++){
             transform.parent.GetChild(transform.parent.childCount - 4).GetChild(a).GetComponent<ItemSlotImg>().ChangePic(0);

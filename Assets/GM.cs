@@ -23,7 +23,7 @@ public class GM : MonoBehaviour
     
     public GameObject loading_screen;
     public Slider slider;
-    public GameObject PauseMenuUI;
+    public GameObject PauseMenuUI, HintUI;
     public GameObject FailUI, SuccessUI;
     public AudioSource Button, ClockTicking, TimesUp;
 
@@ -128,7 +128,7 @@ public class GM : MonoBehaviour
                 isCountingDown = true;
             }
         }
-        if(Timer_.time_left_sec < 0){
+        if(Timer_.time_left_sec <= 0){
             Timer_.time_left_sec = 0;
             if(!isTimesUp){
                 TimesUp.Play();
@@ -166,11 +166,19 @@ public class GM : MonoBehaviour
         isPause = true;
         Time.timeScale = 0;
         PauseMenuUI.SetActive(true);
+        if (isCountingDown == true){
+            ClockTicking.Pause();
+        }
     }
     public void ResumeGame(){
         isPause = false;
         Time.timeScale = 1;
         PauseMenuUI.SetActive(false);
+        HintUI.SetActive(false);
+        GameObject.Find("MainUI").transform.GetChild(GameObject.Find("MainUI").transform.childCount - 1).gameObject.SetActive(true);
+        if (isCountingDown == true){
+            ClockTicking.Play();
+        }
     }
     public void RestartGame(){
         StartCoroutine(LoadScene("Demo 01"));
@@ -181,6 +189,15 @@ public class GM : MonoBehaviour
     public void NextStage(){
         //To Next stage
         //StartCoroutine(LoadScene("ChooseCloth"));
+    }
+    public void HintInGame(){
+        isPause = true;
+        Time.timeScale = 0;
+        HintUI.SetActive(true);
+        GameObject.Find("MainUI").transform.GetChild(GameObject.Find("MainUI").transform.childCount - 1).gameObject.SetActive(false);
+        if (isCountingDown == true){
+            ClockTicking.Pause();
+        }
     }
     IEnumerator LoadScene(string SceneName){
         AsyncOperation op =  SceneManager.LoadSceneAsync (sceneName: SceneName);

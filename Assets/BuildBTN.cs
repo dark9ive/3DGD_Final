@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BuildBTN : MonoBehaviour
 {
-    public AudioSource DyeBottomSound;
 
     public void OnClick(){
         if(transform.parent.GetChild(transform.parent.childCount - 4).GetChild(0).GetComponent<ItemSlotImg>().getPicID() != 0){
@@ -22,7 +21,6 @@ public class BuildBTN : MonoBehaviour
             transform.parent.GetChild(transform.parent.childCount - 4).GetChild(a).GetComponent<ItemSlotImg>().ChangePic(myID);
             transform.parent.GetChild(transform.parent.childCount - 2).GetChild(a).GetChild(0).GetComponent<ItemSlotImg>().ChangePic(0);
         }
-        DyeBottomSound.Play();
     }
     // Start is called before the first frame update
     void Start()
